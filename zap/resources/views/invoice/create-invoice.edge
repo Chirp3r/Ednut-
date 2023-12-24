@@ -1,0 +1,44 @@
+@layout('layouts/master')
+@section('content')
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 shadow bg-white mt-5 rounded p-3">
+            <div class="float-right">
+                <a href="/invoices" class="btn btn-outline-dark ">back</a>
+            </div>
+                <br>        
+            <div class="clear-fix"></div>
+                <form method="POST" action="{{route('store.invoice')}}">
+                    {{ csrfField() }}
+                    <label for="client_id">Client:</label>
+                    <select name="client_id" id="client_id">
+                      <% clients.forEach(client => { %>
+                        <option value="<%={{client.id}}%>"><%={{client.name}}>%></option>
+                        <% }); %>
+                      </select>
+                      <div class="form-group">
+                        <label for="amount">Amount</label>
+                        <input type="text" class="form-control" id="amount"  name="amount" value="{{old('amount', '') }}" placeholder="Enter amount">
+                        {{ elIf('<span class=text-danger>$self</span>', getErrorFor('amount'), hasErrorFor('amount')) }}
+                      </div>
+                      <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea type="text" rows="5"  name='body' id="body" class="form-control" id="description" placeholder="Write a deposit description"></textarea>
+                      </div> 
+                      <div class="form-group">
+                        <label for="due_date">Due Date</label>
+                        <input type="date" class="form-control" id="due_date" name="due_date" value="{{old('due_date', '')}}">
+                        {{ elIf('<span class=text-danger>$self</span>', getErrorFor('date'), hasErrorFor('date')) }}
+                      </div>               
+                    <div class="text-center">
+                        <button type="submit" class="btn submit-button">Send</button>
+                    </div>      
+                </form>
+            </div>
+        </div>  
+        <div class="col-md-3"></div>
+    </div> 
+</div>
+@endsection
+ 
